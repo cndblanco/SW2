@@ -30,41 +30,37 @@ and open the template in the editor.
         </div>
         <!-- ********* LOGIN STUDENT **********--->
         <div id="student" hidden="" style="width: 25%;margin-left: 37%;">
-            <form class="col s12">
-                <div align="center">
-                    <div class="input-field" align="center">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="user_std" type="text" class="validate" placeholder="Usuario">
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">vpn_key</i>
-                        <input id="psw_std" type="password" class="validate" placeholder="Contraseña">
-                    </div>
-                    <button class="btn waves-effect waves-light" onclick="loginStd()" name="action">Ingresar
-                        <i class="material-icons right">send</i>                        
-                    </button>
-                    <a href="#" onclick="showRegStudent()" style="float: right;alignment-adjust: after-edge" >Registrar</a>
+            <div align="center">
+                <div class="input-field" align="center">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="user_std" type="text" class="validate" placeholder="Usuario">
                 </div>
-            </form>
+                <div class="input-field">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input id="psw_std" type="password" class="validate" placeholder="Contraseña">
+                </div>
+                <button class="btn waves-effect waves-light" onclick="loginStd()" name="action">Ingresar
+                    <i class="material-icons right">send</i>                        
+                </button>
+                <a href="#" onclick="showRegStudent()" style="float: right;alignment-adjust: after-edge" >Registrar</a>
+            </div>
         </div>
         <!-- ********* LOGIN TEACHER **********--->
         <div id="teacher" hidden="" style="width: 25%;;margin-left: 37%;">
-            <form class="col s12">
-                <div align="center">
-                    <div class="input-field" align="center">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="user_prof" type="text" class="validate" placeholder="Usuario">
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">vpn_key</i>
-                        <input id="psw_prof" type="password" class="validate" placeholder="Contraseña">
-                    </div>
-                    <button class="btn waves-effect waves-light" onclick="loginTeacher()" name="action">Ingresar
-                        <i class="material-icons right">send</i>
-                    </button>
-                    <a href="#" onclick="showRegTeacher()" style="float: right;alignment-adjust: after-edge" >Registrar</a>
+            <div align="center">
+                <div class="input-field" align="center">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="user_prof" type="text" class="validate" placeholder="Usuario">
                 </div>
-            </form>
+                <div class="input-field">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input id="psw_prof" type="password" class="validate" placeholder="Contraseña">
+                </div>
+                <button class="btn waves-effect waves-light" onclick="loginTeacher()" name="action">Ingresar
+                    <i class="material-icons right">send</i>
+                </button>
+                <a href="#" onclick="showRegTeacher()" style="float: right;alignment-adjust: after-edge" >Registrar</a>
+            </div>
         </div>
         <!-- ********* DIV para Registro Alumno **********-->
         <div id="reg_student" hidden="" style="width: 25%;margin-left: 37%;">

@@ -80,7 +80,7 @@ function registrarStudent() {
     xhttp.open("POST", "Registrar?user=" + user + "&psw=" + psw + "&nombre=" + nombre, true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             document.getElementById("rpta").innerHTML = "<p style='color: green'>Registro correcto</p>";
             $("#user").val("");
             $("#psw").val("");
@@ -99,7 +99,7 @@ function registrarTeacher() {
     xhttp.open("POST", "RegistrarTeacher?user=" + user + "&psw=" + psw + "&nombre=" + nombre, true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             document.getElementById("rpta").innerHTML = "<p style='color: green'>Registro correcto</p>";
             $("#user").val("");
             $("#psw").val("");
