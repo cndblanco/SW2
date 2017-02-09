@@ -27,9 +27,9 @@ public class Dto {
         col.insertOne(doc);
     }
     
-    public String login(String u, String p) {
+    public String loginStudent(String u, String p) {
         String id;
-        MongoCollection<Document> col = c.getConnection("usuarios");
+        MongoCollection<Document> col = c.getConnection("alumnos");
         try {
             Document doc = col.find(eq("usuario", u)).first();
             if (u.equals(doc.getString("usuario")) && p.equals(doc.getString("psw"))) {

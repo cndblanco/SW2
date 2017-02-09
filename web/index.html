@@ -9,30 +9,109 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-        <!-- Latest compiled JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="js/jquery-1.10.2.js" type="text/javascript"></script>
+        <link href="css/materialize.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/materialize.min.js" type="text/javascript"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="js/funciones.js" type="text/javascript"></script>
     </head>
     <body>
-        <div class="content" align="center">
-            <div class="form-group">
-                <label for="user">Usuario:</label>
-                <input type="text" id="user">
+        <div align="center" style="margin-top: 15%">
+            <div style="display: inline-block" id="icon_student">
+                <i class="large material-icons" onclick="showStudent()">perm_identity</i>
+                <br>Alumno
             </div>
-            <div class="form-group">
-                <label for="psw">Password:</label>
-                <input type="password" id="psw">
+            <div style="display: inline-block" id="icon_teacher">
+                <i class="large material-icons" onclick="showTeacher()">perm_identity</i>
+                <br>Profesor
             </div>
-            <div id="rpta"></div>
-            <div class="form-group" style="width:15%">
-                <button onclick="setTimeout(login(),5000)">Login</button><a href="registro.html" style="float: right">Registro</a>
-            </div>
+
+        </div>
+
+        <div id="student" hidden="" style="width: 25%;margin-left: 37%;">
+            <form class="col s12">
+                <div align="center">
+                    <div class="input-field" align="center">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="user_std" type="text" class="validate" placeholder="Usuario">
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input id="psw_std" type="password" class="validate" placeholder="Contraseña">
+                    </div>
+                    <button class="btn waves-effect waves-light" onclick="loginStd()" name="action">Ingresar
+                        <i class="material-icons right">send</i>                        
+                    </button>
+                    <a href="#" onclick="showRegStudent()" style="float: right;alignment-adjust: after-edge" >Registrar</a>
+                </div>
+            </form>
+        </div>
+
+        <div id="teacher" hidden="" style="width: 25%;;margin-left: 37%;">
+            <form class="col s12">
+                <div align="center">
+                    <div class="input-field" align="center">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="user_prof" type="text" class="validate" placeholder="Usuario">
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input id="psw_prof" type="password" class="validate" placeholder="Contraseña">
+                    </div>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Ingresar
+                        <i class="material-icons right">send</i>
+                    </button>
+                    <a href="#" onclick="showRegTeacher()" style="float: right;alignment-adjust: after-edge" >Registrar</a>
+                </div>
+            </form>
+        </div>
+        <!-- ********* DIV para Registro Alumno **********-->
+        <div id="reg_student" hidden="" style="width: 25%;margin-left: 37%;">
+            <form class="col s12">
+                <div align="center">
+                    <div class="input-field" align="center">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="reg_user_std" type="text" class="validate" placeholder="Usuario">
+                    </div>
+                    <div class="input-field" align="center">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="reg_name_std" type="text" class="validate" placeholder="Nombre">
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input id="reg_psw_std" type="password" class="validate" placeholder="Contraseña">
+                    </div>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Registrar
+                        <i class="material-icons right">send</i>                        
+                    </button>
+                    <a href="#" onclick="showStudent()" style="float: right;alignment-adjust: after-edge" >Ingresar</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- ********* DIV para Registro Profesor **********-->
+
+        <div id="reg_teacher" hidden="" style="width: 25%;margin-left: 37%;">
+            <form class="col s12">
+                <div align="center">
+                    <div class="input-field" align="center">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="reg_user_teacher" type="text" class="validate" placeholder="Usuario">
+                    </div>
+                    <div class="input-field" align="center">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="reg_name_teacher" type="text" class="validate" placeholder="Nombre">
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input id="reg_psw_teacher" type="password" class="validate" placeholder="Contraseña">
+                    </div>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Registrar
+                        <i class="material-icons right">send</i>                        
+                    </button>
+                    <a href="#" onclick="showTeacher();" style="float: right;alignment-adjust: after-edge" >Ingresar</a>
+                </div>
+            </form>
         </div>
     </body>
 </html>

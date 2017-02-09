@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
         String psw=request.getParameter("psw");
 
         Dto d=new Dto();
-        String rpta=d.login(user, psw);
+        String rpta=d.loginStudent(user, psw);
         
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
