@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Lenovo
  */
-public class Registrar extends HttpServlet {
+public class RegistrarTeacher extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,8 +36,7 @@ public class Registrar extends HttpServlet {
         String nombre = request.getParameter("nombre");
 
         Dto d = new Dto();
-        d.registrarStudent(nombre, user, psw);
-
+        d.registrarTeacher(nombre, user, psw);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -19,7 +19,7 @@ public class Test {
     public static void main(String[] args) {
         // TODO code application logic here
         Dto d=new Dto();
-        d.registrar("Cyndi", "cyndi", "123");
+        d.registrarStudent("Cyndi", "cyndi", "123");
     }
     
 }

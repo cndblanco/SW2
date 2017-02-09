@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Lenovo
  */
-public class Registrar extends HttpServlet {
+public class LoginTeacher extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,14 +30,18 @@ public class Registrar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String user = request.getParameter("user");
-        String psw = request.getParameter("psw");
-        String nombre = request.getParameter("nombre");
+        String user=request.getParameter("user");
+        String psw=request.getParameter("psw");
 
-        Dto d = new Dto();
-        d.registrarStudent(nombre, user, psw);
-
+        Dto d=new Dto();
+        String rpta=d.loginTeacher(user, psw);
+        
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.print(rpta);     
+            System.out.println(rpta);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -16,9 +16,21 @@ import org.bson.Document;
  */
 public class Dto {
     private Conexion c=new Conexion();
-    public void registrar(String nombre, String usuario, String psw) {
+    
+    public void registrarStudent(String nombre, String usuario, String psw) {
         c = new Conexion();
-        MongoCollection<Document> col = c.getConnection("usuarios");
+        MongoCollection<Document> col = c.getConnection("alumnos");
+        //int idUsuario = 0;
+        Document doc = new Document();
+        doc.append("nombre", nombre);
+        doc.append("usuario", usuario);
+        doc.append("psw", psw);
+        col.insertOne(doc);
+    }
+    
+    public void registrarTeacher(String nombre, String usuario, String psw) {
+        c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("profesores");
         //int idUsuario = 0;
         Document doc = new Document();
         doc.append("nombre", nombre);
@@ -33,7 +45,23 @@ public class Dto {
         try {
             Document doc = col.find(eq("usuario", u)).first();
             if (u.equals(doc.getString("usuario")) && p.equals(doc.getString("psw"))) {
-                id = doc.getString("usuario");
+                id = doc.getString("nombre");
+            } else {
+                id = "error";
+            }
+        } catch (NullPointerException e) {
+            id = "error";
+        }
+        return id;
+    }
+    
+    public String loginTeacher(String u, String p) {
+        String id;
+        MongoCollection<Document> col = c.getConnection("profesores");
+        try {
+            Document doc = col.find(eq("usuario", u)).first();
+            if (u.equals(doc.getString("usuario")) && p.equals(doc.getString("psw"))) {
+                id = doc.getString("nombre");
             } else {
                 id = "error";
             }

@@ -8,6 +8,14 @@
         <servlet-name>Registrar</servlet-name>
         <servlet-class>servlets.Registrar</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginTeacher</servlet-name>
+        <servlet-class>servlets.LoginTeacher</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrarTeacher</servlet-name>
+        <servlet-class>servlets.RegistrarTeacher</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>Registrar</servlet-name>
         <url-pattern>/Registrar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginTeacher</servlet-name>
+        <url-pattern>/LoginTeacher</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrarTeacher</servlet-name>
+        <url-pattern>/RegistrarTeacher</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
