@@ -5,6 +5,7 @@
  */
 
 function showStudent(){
+    document.getElementsByName("action").disabled = true;
     $("#icon_teacher").css('background-color', 'transparent');
     $("#icon_student").css('background-color', '#ff8c00');
     $("#teacher").hide();
