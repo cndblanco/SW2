@@ -19,7 +19,8 @@ public class Test {
     public static void main(String[] args) {
         // TODO code application logic here
         Dto d=new Dto();
-        d.registrarStudent("Cyndi", "cyndi", "123");
+        System.out.println(d.getAsesor(1));
+        System.out.println(d.listarTesis());
     }
     
 }

@@ -6,7 +6,9 @@
 package dto;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.model.Sorts;
 import dao.Conexion;
 import org.bson.Document;
 
@@ -15,30 +17,72 @@ import org.bson.Document;
  * @author Lenovo
  */
 public class Dto {
-    private Conexion c=new Conexion();
+
+    private Conexion c = new Conexion();
     
+    public long getLastStudentId() {
+        Conexion c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("usuarioxactividad");
+
+        Document doc = col.find().sort(Sorts.orderBy(Sorts.descending("_id"))).first();
+
+        if (doc == null) {
+            return 0;
+        } else {
+            return (doc.getLong("_id"));
+        }
+    }
+    
+    public long getLastTeacherId() {
+        Conexion c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("profesores");
+
+        Document doc = col.find().sort(Sorts.orderBy(Sorts.descending("_id"))).first();
+
+        if (doc == null) {
+            return 0;
+        } else {
+            return (doc.getLong("_id"));
+        }
+    }
+    
+    public long getLastTesisId() {
+        Conexion c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("tesis");
+
+        Document doc = col.find().sort(Sorts.orderBy(Sorts.descending("_id"))).first();
+
+        if (doc == null) {
+            return 0;
+        } else {
+            return (doc.getLong("_id"));
+        }
+    }
+
     public void registrarStudent(String nombre, String usuario, String psw) {
         c = new Conexion();
         MongoCollection<Document> col = c.getConnection("alumnos");
         //int idUsuario = 0;
         Document doc = new Document();
+        doc.append("_id",(getLastStudentId()+1));
         doc.append("nombre", nombre);
         doc.append("usuario", usuario);
         doc.append("psw", psw);
         col.insertOne(doc);
     }
-    
+
     public void registrarTeacher(String nombre, String usuario, String psw) {
         c = new Conexion();
         MongoCollection<Document> col = c.getConnection("profesores");
         //int idUsuario = 0;
         Document doc = new Document();
+        doc.append("_id",(getLastTeacherId()+1));
         doc.append("nombre", nombre);
         doc.append("usuario", usuario);
         doc.append("psw", psw);
         col.insertOne(doc);
     }
-    
+
     public String loginStudent(String u, String p) {
         String id;
         MongoCollection<Document> col = c.getConnection("alumnos");
@@ -54,7 +98,7 @@ public class Dto {
         }
         return id;
     }
-    
+
     public String loginTeacher(String u, String p) {
         String id;
         MongoCollection<Document> col = c.getConnection("profesores");
@@ -69,5 +113,51 @@ public class Dto {
             id = "error";
         }
         return id;
+    }
+
+    public String listarTesis() {
+        String cadena = "";
+        MongoCollection<Document> col = c.getConnection("tesis");
+        MongoCursor<Document> cursor = col.find().iterator();
+        Document doc;
+        try {
+            while (cursor.hasNext()) {
+                doc = cursor.next();
+                cadena += "<tr>"
+                        + "<td>" + doc.getString("titulo") + "</td>"
+                        + "<td>" + getAlumno(doc.getInteger("idAlumno")) + "</td>"
+                        + "<td>" + getAsesor(doc.getInteger("idAsesor")) + "</td>"
+                        + "</tr>";
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            cursor.close();
+        }
+        return cadena;
+    }
+
+    public String getAlumno(int id) {
+        String a = "";
+        MongoCollection<Document> col = c.getConnection("alumnos");
+        try {
+            Document doc = col.find(eq("_id", id)).first();
+            a = doc.getString("nombre");
+        } catch (NullPointerException e) {
+            a = "error";
+        }
+        return a;
+    }
+
+    public String getAsesor(int id) {
+        String p = "";
+        MongoCollection<Document> col = c.getConnection("profesores");
+        try {
+            Document doc = col.find(eq("_id", id)).first();
+            p = doc.getString("nombre");
+        } catch (NullPointerException e) {
+            p = "error";
+        }
+        return p;
     }
 }

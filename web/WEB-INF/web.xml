@@ -16,6 +16,10 @@
         <servlet-name>RegistrarTeacher</servlet-name>
         <servlet-class>servlets.RegistrarTeacher</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListarTesis</servlet-name>
+        <servlet-class>servlets.ListarTesis</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>RegistrarTeacher</servlet-name>
         <url-pattern>/RegistrarTeacher</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListarTesis</servlet-name>
+        <url-pattern>/ListarTesis</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
