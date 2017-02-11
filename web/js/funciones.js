@@ -53,7 +53,7 @@ function loginStd() {
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.responseText !== "error") {
-            console.log(this.responseText);
+            window.location.href = 'alumno.html';
             //document.getElementById("rpta").innerHTML = "<p style='color: green'>Login correcto</p>";
         } else if (this.responseText === "error") {
             alert("Usuario no registrado o datos incorrectos");
@@ -74,7 +74,6 @@ function loginTeacher() {
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.responseText !== "error") {
-            console.log(this.responseText);
             //document.getElementById("rpta").innerHTML = "<p style='color: green'>Login correcto</p>";
             window.location.href = 'profesor.html';
         } else if (this.responseText === "error") {

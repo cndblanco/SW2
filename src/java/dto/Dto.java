@@ -117,16 +117,16 @@ public class Dto {
 
     public String listarTesis() {
         String cadena = "";
-        MongoCollection<Document> col = c.getConnection("tesis");
-        MongoCursor<Document> cursor = col.find().iterator();
+        MongoCollection<Document> col = c.getConnection("universo_tesis");
+        MongoCursor<Document> cursor = col.find().sort(Sorts.orderBy(Sorts.descending("año"))).iterator();
         Document doc;
         try {
             while (cursor.hasNext()) {
                 doc = cursor.next();
                 cadena += "<tr>"
-                        + "<td>" + doc.getString("titulo") + "</td>"
-                        + "<td>" + getAlumno(doc.getInteger("idAlumno")) + "</td>"
-                        + "<td>" + getAsesor(doc.getInteger("idAsesor")) + "</td>"
+                        + "<td width='20%'>" + doc.getString("titulo").toUpperCase().trim() + "</td>"
+                        + "<td width='20%'>" + doc.getString("año").toUpperCase().trim() + "</td>"
+                        + "<td width='20%'>" + doc.getString("estado").toUpperCase().trim() + "</td>"
                         + "</tr>";
             }
         } catch (Exception e) {
