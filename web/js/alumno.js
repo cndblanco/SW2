@@ -15,7 +15,6 @@ function search() {
                 tr[i].style.display = "";
             } else {
                 tr[i].style.display = "none";
-                searchEstado();
             }
         }
     }
@@ -38,7 +37,6 @@ function searchEstado() {
                 tr[i].style.display = "";
             } else {
                 tr[i].style.display = "none";
-                searchAño();
             }
         }
     }
@@ -75,7 +73,6 @@ function searchAño() {
                 tr[i].style.display = "";
             } else {
                 tr[i].style.display = "none";
-                search();
             }
         }
     }
