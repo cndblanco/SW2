@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Lenovo
  */
-public class Login extends HttpServlet {
+public class RegistrarTema extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +31,26 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("user");
-        String psw = request.getParameter("psw");
-        Cookie cookie1 = new Cookie("usuario", user);
-        cookie1.setMaxAge(24 * 60 * 60);
-        response.addCookie(cookie1);
-        Dto d = new Dto();
-        String rpta = d.loginStudent(user, psw);
+        String tema = request.getParameter("tema");
+        String usuario = "";
+        Cookie[] cookies = request.getCookies();
+        boolean foundCookie;
+        for (int i = 0; i < cookies.length; i++) {
+            Cookie cookie1 = cookies[i];
+            if (cookie1.getName().equals("usuario")) {
+                usuario = cookie1.getValue();
+                foundCookie = true;
+            }
+        }
 
-        response.setContentType("application/json");
+        Dto d = new Dto();
+        d.registrarTema(tema, usuario);
+
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.print(rpta);
-            System.out.print(rpta);
+            out.println("ok");
+
         }
     }
 

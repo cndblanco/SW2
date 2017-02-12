@@ -11,6 +11,9 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.Sorts;
 import dao.Conexion;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.bson.Document;
 
 /**
@@ -20,7 +23,7 @@ import org.bson.Document;
 public class Dto {
 
     private Conexion c = new Conexion();
-    
+
     public long getLastStudentId() {
         Conexion c = new Conexion();
         MongoCollection<Document> col = c.getConnection("usuarioxactividad");
@@ -33,7 +36,7 @@ public class Dto {
             return (doc.getLong("_id"));
         }
     }
-    
+
     public long getLastTeacherId() {
         Conexion c = new Conexion();
         MongoCollection<Document> col = c.getConnection("profesores");
@@ -46,10 +49,10 @@ public class Dto {
             return (doc.getLong("_id"));
         }
     }
-    
+
     public long getLastTesisId() {
         Conexion c = new Conexion();
-        MongoCollection<Document> col = c.getConnection("tesis");
+        MongoCollection<Document> col = c.getConnection("universo_tesis");
 
         Document doc = col.find().sort(Sorts.orderBy(Sorts.descending("_id"))).first();
 
@@ -59,7 +62,22 @@ public class Dto {
             return (doc.getLong("_id"));
         }
     }
-    
+
+    public void registrarTema(String tema, String usuario) {
+        c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("universo_tesis");
+        //int idUsuario = 0;
+        Document doc = new Document();
+        doc.append("_id", (getLastTesisId() + 1));
+        doc.append("titulo", tema);
+        doc.append("usuario", usuario);
+        doc.append("estado", "PENDIENTE DE CONFIRMACIÓN");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        doc.append("año", String.valueOf(dateFormat.format(date)));
+        col.insertOne(doc);
+    }
+
     public boolean existe(String user, String psw) {
         Conexion c = new Conexion();
         MongoCollection<Document> col = c.getConnection("usuarioxactividad");
@@ -77,7 +95,7 @@ public class Dto {
         MongoCollection<Document> col = c.getConnection("alumnos");
         //int idUsuario = 0;
         Document doc = new Document();
-        doc.append("_id",(getLastStudentId()+1));
+        doc.append("_id", (getLastStudentId() + 1));
         doc.append("nombre", nombre);
         doc.append("usuario", usuario);
         doc.append("psw", psw);
@@ -89,7 +107,7 @@ public class Dto {
         MongoCollection<Document> col = c.getConnection("profesores");
         //int idUsuario = 0;
         Document doc = new Document();
-        doc.append("_id",(getLastTeacherId()+1));
+        doc.append("_id", (getLastTeacherId() + 1));
         doc.append("nombre", nombre);
         doc.append("usuario", usuario);
         doc.append("psw", psw);
@@ -138,7 +156,7 @@ public class Dto {
                 doc = cursor.next();
                 cadena += "<tr>"
                         + "<td width='20%'>" + doc.getString("titulo").toUpperCase().trim() + "</td>"
-                        + "<td width='20%'>" + doc.getString("año").toUpperCase().trim() + "</td>"
+                        + "<td width='20%'>" + doc.getString("año") + "</td>"
                         + "<td width='20%'>" + doc.getString("estado").toUpperCase().trim() + "</td>"
                         + "</tr>";
             }

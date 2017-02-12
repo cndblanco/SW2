@@ -13,7 +13,6 @@ function search() {
         if (td) {
             if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                 tr[i].style.display = "";
-                searchEstado();
             } else {
                 tr[i].style.display = "none";
                 searchEstado();
@@ -37,13 +36,26 @@ function searchEstado() {
         if (td) {
             if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                 tr[i].style.display = "";
-                searchAño();
             } else {
                 tr[i].style.display = "none";
                 searchAño();
             }
         }
     }
+}
+
+function registrarTema() {
+    var tema = $("#tema").val();
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "RegistrarTema?tema=" + tema, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+//            document.getElementById("rpta").innerHTML = "<p style='color: green'>Registro correcto</p>";
+            $("#tema").val("");
+        }
+    };
 }
 
 function searchAño() {
@@ -63,20 +75,21 @@ function searchAño() {
                 tr[i].style.display = "";
             } else {
                 tr[i].style.display = "none";
+                search();
             }
         }
     }
 }
-function listarTesis(){
+function listarTesis() {
     var xhttp = new XMLHttpRequest();
-    
+
     xhttp.open("POST", "ListarTesis", true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             $("#listaTesis").html("");
             $("#listaTesis").html(this.response);
-            
+
         }
     };
 }

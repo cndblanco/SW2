@@ -20,6 +20,10 @@
         <servlet-name>ListarTesis</servlet-name>
         <servlet-class>servlets.ListarTesis</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegistrarTema</servlet-name>
+        <servlet-class>servlets.RegistrarTema</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>ListarTesis</servlet-name>
         <url-pattern>/ListarTesis</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrarTema</servlet-name>
+        <url-pattern>/RegistrarTema</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
