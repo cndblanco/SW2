@@ -7,6 +7,7 @@ package dto;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.Sorts;
 import dao.Conexion;
@@ -58,6 +59,18 @@ public class Dto {
             return (doc.getLong("_id"));
         }
     }
+    
+    public boolean existe(String user, String psw) {
+        Conexion c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("usuarioxactividad");
+        long count = col.count(and(eq("usuario", user), eq("contraseña", psw)));
+        System.out.println(c);
+        if (count == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void registrarStudent(String nombre, String usuario, String psw) {
         c = new Conexion();
@@ -88,7 +101,7 @@ public class Dto {
         MongoCollection<Document> col = c.getConnection("alumnos");
         try {
             Document doc = col.find(eq("usuario", u)).first();
-            if (u.equals(doc.getString("usuario")) && p.equals(doc.getString("psw"))) {
+            if (u.equalsIgnoreCase(doc.getString("usuario")) && p.equalsIgnoreCase(doc.getString("psw"))) {
                 id = doc.getString("nombre");
             } else {
                 id = "error";

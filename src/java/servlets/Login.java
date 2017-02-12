@@ -40,7 +40,7 @@ public class Login extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.print(rpta);     
-            System.out.println(rpta);
+            System.out.print(rpta);
         }
     }
 

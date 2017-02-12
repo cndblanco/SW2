@@ -57,6 +57,9 @@ function loginStd() {
             //document.getElementById("rpta").innerHTML = "<p style='color: green'>Login correcto</p>";
         } else if (this.responseText === "error") {
             alert("Usuario no registrado o datos incorrectos");
+            window.location.href = 'index.html';
+            
+            return false;
         }
     };
 }
@@ -78,6 +81,8 @@ function loginTeacher() {
             window.location.href = 'profesor.html';
         } else if (this.responseText === "error") {
             alert("Usuario no registrado o datos incorrectos");
+            window.location.href = 'index.html';            
+            return false;
         }
     };
 }
