@@ -16,13 +16,13 @@ and open the template in the editor.
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="js/alumno.js" type="text/javascript"></script>
     </head>
-    <body onload="listarTesis()">
+    <body onload="listarTesis();listarTesisSinAsesores();">
         <nav>
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo">Aula Virtual</a>
 
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="index.html">Cerrar sesión</a></li>
+                    <li><a onclick="logOut()">Cerrar sesión</a></li>
                 </ul>
 
             </div>
@@ -68,6 +68,64 @@ and open the template in the editor.
                     </div>
                 </form>
             </div>
+        </div>
+        <div id="test-swipe-3" class="col s4">
+            <table class="centered responsive-table" align="center" style="width: 90%">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Asesores</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tsa" style="width: 55%">
+                    <tr>
+                        <td colspan="3">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-blue">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-red">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-yellow">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-green">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div id="test-swipe-4" class="col s4">
             <input type="text" class="center" id="search" onkeyup="search()" placeholder="Ingrese consulta...">

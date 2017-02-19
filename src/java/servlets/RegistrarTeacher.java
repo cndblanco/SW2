@@ -36,7 +36,7 @@ public class RegistrarTeacher extends HttpServlet {
         String nombre = request.getParameter("nombre");
 
         Dto d = new Dto();
-        d.registrarTeacher(nombre, user, psw);
+        //d.registrarTeacher(nombre, user, psw);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -37,7 +37,7 @@ public class RegistrarTema extends HttpServlet {
         boolean foundCookie;
         for (int i = 0; i < cookies.length; i++) {
             Cookie cookie1 = cookies[i];
-            if (cookie1.getName().equals("usuario")) {
+            if (cookie1.getName().equals("id")) {
                 usuario = cookie1.getValue();
                 foundCookie = true;
             }

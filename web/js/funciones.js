@@ -53,7 +53,7 @@ function loginStd() {
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.responseText !== "error") {
-            window.location.href = 'alumno.html';
+            window.location.href = 'inicio_alumno.html';
             //document.getElementById("rpta").innerHTML = "<p style='color: green'>Login correcto</p>";
         } else if (this.responseText === "error") {
             alert("Usuario no registrado o datos incorrectos");

@@ -16,22 +16,79 @@ and open the template in the editor.
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="js/profesor.js" type="text/javascript"></script>
     </head>
-    <body onload="listarTesis()">
+    <body onload="listarTesisP();listarTesisA()">
         <nav>
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo">Aula Virtual</a>
-                
+
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="index.html">Cerrar sesión</a></li>
+                    <li><a onclick="logOut()">Cerrar sesión</a></li>
                 </ul>
-                
+
             </div>
         </nav>
         <ul id="tabs-swipe-demo" class="tabs tabs-fixed-width">
-            <li class="tab col s3"><a href="#test-swipe-1">Profesor</a></li>
-            <li class="tab col s3"><a class="active" href="#test-swipe-2">Asesor</a></li>
+            <li class="tab col s3"><a class="active" href="#test-swipe-1">Profesor</a></li>
+            <li class="tab col s3"><a href="#test-swipe-2">Asesor</a></li>
         </ul>
-        <div id="test-swipe-1" class="col s12 blue">Profesor</div>
+        <div id="test-swipe-1" class="col s12">
+            <table class="centered responsive-table">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Alumno</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="listaTesisP">
+                    <tr>
+                        <td colspan="3">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-blue">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-red">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-yellow">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-layer spinner-green">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div id="test-swipe-2" class="col s12">
             <input type="text" class="center" id="search" onkeyup="search()" placeholder="Ingrese titulo...">
             <table class="centered responsive-table">
@@ -39,10 +96,10 @@ and open the template in the editor.
                     <tr>
                         <th>Titulo</th>
                         <th>Alumno</th>
-                        <th>Asesor</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody id="listaTesis">
+                <tbody id="listaTesisA">
                     <tr>
                         <td colspan="3">
                             <div class="preloader-wrapper big active">

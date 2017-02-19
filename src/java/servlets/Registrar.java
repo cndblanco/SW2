@@ -36,7 +36,7 @@ public class Registrar extends HttpServlet {
         String nombre = request.getParameter("nombre");
 
         Dto d = new Dto();
-        d.registrarStudent(nombre, user, psw);
+        //d.registrarStudent(nombre, user, psw);
 
     }
 

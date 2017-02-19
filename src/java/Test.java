@@ -6,7 +6,6 @@ import dto.Dto;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Lenovo
@@ -18,9 +17,15 @@ public class Test {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Dto d=new Dto();
-        System.out.println(d.getAsesor(1));
-        System.out.println(d.listarTesis());
+        Dto d = new Dto();
+        //System.out.println(d.getAsesor(1));
+        //System.out.println(d.listarTesis());
+        //System.out.println(d.listarTesisProfesor("902"));
+        //System.out.println(d.listarTesisAsesor(1));
+        //d.enviarSolicitud(1, 1);
+        //System.out.println(d.getSeccion("1"));
+        //System.out.println(d.listarTesisSinAsesor("901"));
+        System.out.println(d.listarAsesores());
     }
-    
+
 }

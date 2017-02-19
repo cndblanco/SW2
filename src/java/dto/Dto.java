@@ -15,6 +15,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.bson.Document;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -65,17 +67,30 @@ public class Dto {
 
     public void registrarTema(String tema, String usuario) {
         c = new Conexion();
-        MongoCollection<Document> col = c.getConnection("universo_tesis");
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
         //int idUsuario = 0;
         Document doc = new Document();
         doc.append("_id", (getLastTesisId() + 1));
         doc.append("titulo", tema);
-        doc.append("usuario", usuario);
-        doc.append("estado", "PENDIENTE DE CONFIRMACIÓN");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy");
-        Date date = new Date();
-        doc.append("año", String.valueOf(dateFormat.format(date)));
+        doc.append("idAsesor", 0);
+        doc.append("estadoP", "pendiente");
+        doc.append("estadoA", "");
+        doc.append("idAlumno", Integer.parseInt(usuario));
+        doc.append("seccion", getSeccion(usuario));
         col.insertOne(doc);
+    }
+
+    public String getSeccion(String id) {
+        String sec = "";
+        MongoCollection<Document> col = c.getConnection("alumnos");
+        Document doc = col.find(eq("_id", Integer.parseInt(id))).first();
+        try {
+            System.out.println(doc);
+            sec = String.valueOf(doc.getInteger("seccion"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return sec;
     }
 
     public boolean existe(String user, String psw) {
@@ -90,60 +105,63 @@ public class Dto {
         }
     }
 
-    public void registrarStudent(String nombre, String usuario, String psw) {
-        c = new Conexion();
-        MongoCollection<Document> col = c.getConnection("alumnos");
-        //int idUsuario = 0;
-        Document doc = new Document();
-        doc.append("_id", (getLastStudentId() + 1));
-        doc.append("nombre", nombre);
-        doc.append("usuario", usuario);
-        doc.append("psw", psw);
-        col.insertOne(doc);
-    }
-
-    public void registrarTeacher(String nombre, String usuario, String psw) {
-        c = new Conexion();
-        MongoCollection<Document> col = c.getConnection("profesores");
-        //int idUsuario = 0;
-        Document doc = new Document();
-        doc.append("_id", (getLastTeacherId() + 1));
-        doc.append("nombre", nombre);
-        doc.append("usuario", usuario);
-        doc.append("psw", psw);
-        col.insertOne(doc);
-    }
-
+//    public void registrarStudent(String nombre, String usuario, String psw) {
+//        c = new Conexion();
+//        MongoCollection<Document> col = c.getConnection("alumnos");
+//        //int idUsuario = 0;
+//        Document doc = new Document();
+//        doc.append("_id", (getLastStudentId() + 1));
+//        doc.append("nombre", nombre);
+//        doc.append("usuario", usuario);
+//        doc.append("psw", psw);
+//        col.insertOne(doc);
+//    }
+//
+//    public void registrarTeacher(String nombre, String usuario, String psw) {
+//        c = new Conexion();
+//        MongoCollection<Document> col = c.getConnection("profesores");
+//        //int idUsuario = 0;
+//        Document doc = new Document();
+//        doc.append("_id", (getLastTeacherId() + 1));
+//        doc.append("nombre", nombre);
+//        doc.append("usuario", usuario);
+//        doc.append("psw", psw);
+//        col.insertOne(doc);
+//    }
     public String loginStudent(String u, String p) {
         String id;
+        JSONObject o = new JSONObject();
         MongoCollection<Document> col = c.getConnection("alumnos");
+        Document doc = col.find(and(eq("usuario", u), eq("psw", p))).first();
         try {
-            Document doc = col.find(eq("usuario", u)).first();
-            if (u.equalsIgnoreCase(doc.getString("usuario")) && p.equalsIgnoreCase(doc.getString("psw"))) {
-                id = doc.getString("nombre");
-            } else {
-                id = "error";
-            }
+            o.put("nombre", doc.getString("nombre"));
+            o.put("id", doc.getInteger("_id"));
+            o.put("seccion", doc.getInteger("seccion"));
         } catch (NullPointerException e) {
-            id = "error";
+            System.out.println(e);
+            o.put("nombre", "error");
+            o.put("id", "error");
+            o.put("seccion", "error");
         }
-        return id;
+        return o.toString();
     }
 
     public String loginTeacher(String u, String p) {
         String id;
+        JSONObject o = new JSONObject();
         MongoCollection<Document> col = c.getConnection("profesores");
+        Document doc = col.find(and(eq("usuario", u), eq("psw", p))).first();
         try {
-            Document doc = col.find(eq("usuario", u)).first();
-            if (u.equals(doc.getString("usuario")) && p.equals(doc.getString("psw"))) {
-                id = doc.getString("nombre");
-            } else {
-                id = "error";
-            }
+            o.put("nombre", doc.getString("nombre"));
+            o.put("id", doc.getInteger("_id"));
+            o.put("seccion", doc.getInteger("seccion"));
         } catch (NullPointerException e) {
-            id = "error";
+            System.out.println(e);
+            o.put("nombre", "error");
+            o.put("id", "error");
+            o.put("seccion", "error");
         }
-        return id;
+        return o.toString();
     }
 
     public String listarTesis() {
@@ -161,7 +179,7 @@ public class Dto {
                         + "</tr>";
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("listarTesis: " + e);
         } finally {
             cursor.close();
         }
@@ -169,26 +187,192 @@ public class Dto {
     }
 
     public String getAlumno(int id) {
-        String a = "";
         MongoCollection<Document> col = c.getConnection("alumnos");
+        JSONObject o = new JSONObject();
         try {
             Document doc = col.find(eq("_id", id)).first();
-            a = doc.getString("nombre");
+            o.put("nombre", doc.getString("nombre"));
+            o.put("id", doc.getString("_id"));
+            o.put("seccion", doc.getString("seccion"));
         } catch (NullPointerException e) {
-            a = "error";
+            o.clear();
         }
-        return a;
+        return o.toString();
     }
 
     public String getAsesor(int id) {
-        String p = "";
+
+        JSONObject o = new JSONObject();
         MongoCollection<Document> col = c.getConnection("profesores");
         try {
             Document doc = col.find(eq("_id", id)).first();
-            p = doc.getString("nombre");
+            o.put("nombre", doc.getString("nombre"));
+            o.put("id", doc.getString("_id"));
+            o.put("seccion", doc.getString("seccion"));
+            //p = doc.getString("nombre");
         } catch (NullPointerException e) {
-            p = "error";
+            o.clear();
         }
-        return p;
+        return o.toString();
+    }
+
+    public String getNombreAlumno(int id) {
+        String nombre = "";
+        MongoCollection<Document> col = c.getConnection("alumnos");
+        try {
+            Document doc = col.find(eq("_id", id)).first();
+            nombre = doc.getString("nombre");
+            //p = doc.getString("nombre");
+        } catch (NullPointerException e) {
+            nombre = "";
+        }
+        return nombre;
+    }
+
+    public String listarTesisAsesor(int id) {
+        String cadena = "";
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+        MongoCursor<Document> cursor = col.find(and(eq("estadoA", "pendiente"), eq("idAsesor", id))).iterator();
+        Document doc;
+        try {
+
+            while (cursor.hasNext()) {
+                System.out.println("while asessor");
+                doc = cursor.next();
+                cadena += "<tr>"
+                        + "<td width='20%'>" + doc.getString("titulo").toUpperCase().trim() + "</td>"
+                        + "<td width='20%'>" + getNombreAlumno(doc.getInteger("idAlumno")) + "</td>";
+                if (doc.getString("estadoA").equalsIgnoreCase("pendiente")) {
+                    cadena += "<td width='20%'><button onclick='aceptarSolicitud(" + doc.getInteger("_id") + ")'>OK</button>"
+                            + "<button onclick='rechazarSolicitud(" + doc.getInteger("_id") + ")'>X</button></td><tr>";
+                } else {
+                    cadena += "<td width='20%'></td><tr>";
+                }
+                //System.out.println(doc);               
+            }
+            //p = doc.getString("nombre");
+        } catch (NullPointerException e) {
+            System.out.println("tesisAsesor: " + e);
+        } finally {
+            cursor.close();
+        }
+        return cadena;
+    }
+
+    public String listarTesisProfesor(String seccion) {
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+        MongoCursor<Document> cursor = col.find(and(eq("seccion", seccion), eq("estadoP", "aceptado"))).iterator();
+        Document doc;
+        String cadena = "";
+        try {
+
+            while (cursor.hasNext()) {
+                doc = cursor.next();
+                cadena += "<tr>"
+                        + "<td width='20%'>" + doc.getString("titulo").toUpperCase().trim() + "</td>"
+                        + "<td width='20%'>" + getNombreAlumno(doc.getInteger("idAlumno")) + "</td>";
+                if (doc.getString("estadoP").equalsIgnoreCase("pendiente")) {
+                    cadena += "<td width='20%'><button onclick='aceptarTesis(" + doc.getInteger("_id") + ")'>OK</button>"
+                            + "<button onclick='rechazarTesis(" + doc.getInteger("_id") + ")'>X</button></td><tr>";
+                } else {
+                    cadena += "<td width='20%'></td><tr>";
+                }
+                //System.out.println(doc);               
+            }
+            //p = doc.getString("nombre");
+        } catch (NullPointerException e) {
+            System.out.println("listar tesis: " + e);
+        } finally {
+            cursor.close();
+        }
+        return cadena;
+    }
+
+    public void enviarSolicitud(int idTesis, int idA) {
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+        Document doc = col.find(eq("_id", idTesis)).first();
+        col.updateOne(doc, new Document("$set", new Document("estadoA", "pendiente")));
+
+        MongoCollection<Document> col1 = c.getConnection("tesis_alumno_asesor");
+        Document doc1 = col1.find(eq("_id", idTesis)).first();
+        col.updateOne(doc1, new Document("$set", new Document("idAsesor", idA)));
+    }
+
+    public String listarTesisSinAsesor(String seccion) {
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+        MongoCursor<Document> cursor = col.find(and(eq("seccion", Integer.parseInt(seccion)), eq("idAsesor", 0))).iterator();
+        Document doc;
+        String cadena = "";
+        try {
+
+            while (cursor.hasNext()) {
+                doc = cursor.next();
+                cadena += "<tr>"
+                        + "<td width='20%'>" + doc.getString("titulo").toUpperCase().trim() + "</td>"
+                        + "<td width='20%'><select id='sel' style='display:inline'><option>*** Seleccione asesor ***</option></select></td>"
+                        + "<td><button onclick='enviarSolicitud(" + doc.getLong("_id") + ")'>Enviar</button></td></tr>";
+                //System.out.println(doc);               
+            }
+            //p = doc.getString("nombre");
+        } catch (NullPointerException e) {
+            System.out.println("listar sin asesor: " + e);
+        } finally {
+            cursor.close();
+        }
+        return cadena;
+    }
+
+    public String listarAsesores() {
+        String cadena = "";
+        MongoCollection<Document> col = c.getConnection("profesores");
+        MongoCursor<Document> cursor = col.find().iterator();
+        Document doc;
+        try {
+            while (cursor.hasNext()) {
+                doc = cursor.next();
+                cadena += "<option value='" + doc.getInteger("_id") + "'>" + doc.getString("nombre") + "</option>";
+            }
+        } catch (Exception e) {
+            System.out.println("listarTesisAsesores: " + e);
+        } finally {
+            cursor.close();
+        }
+        return cadena;
+    }
+
+    public void aceptarTesisProfesor(int idTesis) {
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+        Document doc = col.find(eq("_id", idTesis)).first();
+
+        col.updateOne(doc, new Document("$set", new Document("estadoP", "aceptado")));
+    }
+
+    public void rechazarTesisProfesor(int idTesis) {
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+        Document doc = col.find(eq("_id", idTesis)).first();
+
+        col.updateOne(doc, new Document("$set", new Document("estadoP", "rechazado")));
+    }
+
+    public void aceptarSolicitudAsesor(int idTesis, int idAsesor) {
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+        Document doc = col.find(eq("_id", idTesis)).first();
+
+        col.updateOne(doc, new Document("$set", new Document("estadoA", "aceptado")));
+
+        MongoCollection<Document> col1 = c.getConnection("tesis_alumno_asesor");
+        Document doc2 = col1.find(eq("_id", idTesis)).first();
+
+        col.updateOne(doc2, new Document("$set", new Document("idAsesor", idAsesor)));
+    }
+
+    public void rechazarSolicitudAsesor(int idTesis) {
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+        Document doc = col.find(eq("_id", idTesis)).first();
+        col.updateOne(doc, new Document("$set", new Document("estadoA", "rechazado")));
+        
+        MongoCollection<Document> col1 = c.getConnection("tesis_alumno_asesor");
+        Document doc2 = col1.find(eq("_id", idTesis)).first();
+        col.updateOne(doc2, new Document("$set", new Document("idAsesor", 0)));
     }
 }

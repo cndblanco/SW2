@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import dto.Dto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,14 +12,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
  * @author Lenovo
  */
-public class Login extends HttpServlet {
+public class LogOut extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,37 +30,18 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("user");
-        String psw = request.getParameter("psw");
-        Dto d=new Dto();
-        String rpta=d.loginStudent(user, psw);
-        JSONObject o=new JSONObject();
-        try{
-            JSONParser p=new JSONParser();
-            o=(JSONObject)p.parse(rpta);
-        }catch(Exception e){
-            System.out.println(e);
+        
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            System.out.println(cookie.getName() + "-" + cookie.getValue());
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            System.out.println(cookie.getName() + "-" + cookie.getValue());
         }
-        String nombre=o.get("nombre").toString();
-        String id=o.get("id").toString();
-        String seccion=o.get("seccion").toString();
-        
-        Cookie cookie1 = new Cookie("nombre", nombre);
-        cookie1.setMaxAge(24 * 60 * 60);
-        Cookie cookie2 = new Cookie("seccion", seccion);
-        cookie2.setMaxAge(24 * 60 * 60);
-        Cookie cookie3 = new Cookie("id", id);
-        cookie3.setMaxAge(24 * 60 * 60);
-        System.out.println(cookie1.getName()+"-"+cookie2.getName()+"-"+cookie3.getName());
-        System.out.println(cookie1.getValue()+"-"+cookie2.getValue()+"-"+cookie3.getValue());
-        response.addCookie(cookie1);
-        response.addCookie(cookie2);
-        response.addCookie(cookie3);
-        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.print(nombre);     
+            out.println("<!DOCTYPE html>");            
         }
     }
 

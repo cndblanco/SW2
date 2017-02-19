@@ -24,17 +24,89 @@ function search() {
         }
     }
 }
-function listarTesis(){
+
+function listarTesisA() {
     var xhttp = new XMLHttpRequest();
-    
-    xhttp.open("POST", "ListarTesis", true);
+
+    xhttp.open("POST", "ListarTesisAsesor", true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            $("#listaTesis").html("");
-            $("#listaTesis").html(this.response);
-            
+            $("#listaTesisA").html("");
+            $("#listaTesisA").html(this.response);
         }
+    };
+}
+
+function listarTesisP() {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "ListarTesisProfesor", true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            $("#listaTesisP").html("");
+            $("#listaTesisP").html(this.response);
+        }
+    };
+}
+
+function aceptarTesis(id) {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "AceptarTesis?idT=" + id, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            listarTesisP();
+        }
+    };
+}
+
+function rechazarTesis(id) {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "RechazarTesis?idT=" + id, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            listarTesisP();
+        }
+    };
+}
+
+function aceptarSolicitud(id) {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "AceptarSolicitud?idT=" + id, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            listarTesisA();
+        }
+    };
+}
+
+function rechazarSolicitud(id) {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "RechazarSolicitud?idT=" + id, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            listarTesisA();
+        }
+    };
+}
+
+function logOut() {
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "LogOut");
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        window.location.href = 'index.html';
     };
 }
 

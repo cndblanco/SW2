@@ -13,14 +13,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
  * @author Lenovo
  */
-public class Login extends HttpServlet {
+public class ListarTesisProfesor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,37 +31,24 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("user");
-        String psw = request.getParameter("psw");
-        Dto d=new Dto();
-        String rpta=d.loginStudent(user, psw);
-        JSONObject o=new JSONObject();
-        try{
-            JSONParser p=new JSONParser();
-            o=(JSONObject)p.parse(rpta);
-        }catch(Exception e){
-            System.out.println(e);
+        String seccion="";
+        Cookie[] cookies = request.getCookies();
+        boolean foundCookie;
+        for (int i = 0; i < cookies.length; i++) {
+            Cookie cookie1 = cookies[i];
+            if (cookie1.getName().equals("seccion")) {
+                //System.out.println(seccion);
+                seccion = cookie1.getValue();
+                System.out.println("profesor-seccion: "+seccion);
+                foundCookie = true;
+            }
         }
-        String nombre=o.get("nombre").toString();
-        String id=o.get("id").toString();
-        String seccion=o.get("seccion").toString();
-        
-        Cookie cookie1 = new Cookie("nombre", nombre);
-        cookie1.setMaxAge(24 * 60 * 60);
-        Cookie cookie2 = new Cookie("seccion", seccion);
-        cookie2.setMaxAge(24 * 60 * 60);
-        Cookie cookie3 = new Cookie("id", id);
-        cookie3.setMaxAge(24 * 60 * 60);
-        System.out.println(cookie1.getName()+"-"+cookie2.getName()+"-"+cookie3.getName());
-        System.out.println(cookie1.getValue()+"-"+cookie2.getValue()+"-"+cookie3.getValue());
-        response.addCookie(cookie1);
-        response.addCookie(cookie2);
-        response.addCookie(cookie3);
-        
+        Dto d=new Dto();
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.print(nombre);     
+            out.print(d.listarTesisProfesor(seccion));
+            
         }
     }
 
