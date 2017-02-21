@@ -54,16 +54,19 @@ public class Dto {
 
     public long getLastTesisId() {
         Conexion c = new Conexion();
-        MongoCollection<Document> col = c.getConnection("universo_tesis");
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
 
         Document doc = col.find().sort(Sorts.orderBy(Sorts.descending("_id"))).first();
 
         if (doc == null) {
             return 0;
         } else {
+            System.out.println(doc.getLong("_id"));
             return (doc.getLong("_id"));
+
         }
-    }
+    }    
+    
 
     public void registrarTema(String tema, String usuario) {
         c = new Conexion();
@@ -76,7 +79,7 @@ public class Dto {
         doc.append("estadoP", "pendiente");
         doc.append("estadoA", "");
         doc.append("idAlumno", Integer.parseInt(usuario));
-        doc.append("seccion", getSeccion(usuario));
+        doc.append("seccion", Integer.parseInt(getSeccion(usuario)));
         col.insertOne(doc);
     }
 
@@ -370,7 +373,7 @@ public class Dto {
         MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
         Document doc = col.find(eq("_id", idTesis)).first();
         col.updateOne(doc, new Document("$set", new Document("estadoA", "rechazado")));
-        
+
         MongoCollection<Document> col1 = c.getConnection("tesis_alumno_asesor");
         Document doc2 = col1.find(eq("_id", idTesis)).first();
         col.updateOne(doc2, new Document("$set", new Document("idAsesor", 0)));
