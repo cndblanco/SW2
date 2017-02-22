@@ -23,9 +23,10 @@ public class Test {
         //System.out.println(d.listarTesisProfesor("902"));
         //System.out.println(d.listarTesisAsesor(1));
         //d.enviarSolicitud(1, 1);
-        //System.out.println(d.getSeccion("1"));
-        System.out.println(d.listarTesisSinAsesor("901"));
+        System.out.println(d.getSeccion("1"));
+        //System.out.println(d.listarTesisSinAsesor("901"));
         //System.out.println(d.getLastTesisId());
+        //System.out.println(d.loginTeacher("hquintana", "hquintana"));
     }
 
 }

@@ -30,8 +30,8 @@ public class RegistrarAsesor extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int idT=Integer.parseInt(request.getParameter("idT"));
-        int idA=Integer.parseInt(request.getParameter("idA"));
+        String idT=request.getParameter("idT");
+        String idA=request.getParameter("idA");
         Dto d=new Dto();
         d.enviarSolicitud(idT, idA);
         response.setContentType("text/html;charset=UTF-8");

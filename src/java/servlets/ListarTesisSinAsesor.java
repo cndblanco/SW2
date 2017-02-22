@@ -13,6 +13,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -33,14 +36,15 @@ public class ListarTesisSinAsesor extends HttpServlet {
             throws ServletException, IOException {
         Dto d=new Dto();
         String seccion="";
-        Cookie[] cookies = request.getCookies();
-        boolean foundCookie;
-        for (int i = 0; i < cookies.length; i++) {
-            Cookie cookie1 = cookies[i];
-            if (cookie1.getName().equals("seccion")) {
-                seccion = cookie1.getValue();                
-                foundCookie = true;
-            }
+        HttpSession ses = request.getSession(true);
+
+        JSONObject o = (JSONObject)ses.getAttribute("data");
+        JSONParser p = new JSONParser();
+        try {
+            seccion=(String)o.get("seccion");
+            System.out.println("sin asesor seccion:"+seccion);
+        } catch (Exception e) {
+            System.out.println(e);
         }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {

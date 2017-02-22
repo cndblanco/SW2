@@ -8,11 +8,17 @@ package servlets;
 import dto.Dto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -32,15 +38,14 @@ public class ListarTesisAsesor extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String asesor="";
-        Cookie[] cookies = request.getCookies();
-        boolean foundCookie;
-        for (int i = 0; i < cookies.length; i++) {
-            Cookie cookie1 = cookies[i];
-            if (cookie1.getName().equals("id")) {
-                asesor = cookie1.getValue();
-                System.out.println("asesor: "+asesor);
-                foundCookie = true;
-            }
+        HttpSession ses=request.getSession(true);
+        JSONObject data=(JSONObject)ses.getAttribute("data");
+        JSONParser p=new JSONParser();
+        try {
+            asesor=(String)data.get("id");
+            System.out.println(asesor);
+        } catch (Exception ex) {
+            Logger.getLogger(ListarTesisProfesor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         Dto d = new Dto();
@@ -48,7 +53,7 @@ public class ListarTesisAsesor extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.print(d.listarTesisAsesor(Integer.parseInt(asesor)));
+            out.print(d.listarTesisAsesor(asesor));
             
         }
     }

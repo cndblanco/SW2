@@ -9,10 +9,10 @@ import dto.Dto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -35,7 +35,7 @@ public class LoginTeacher extends HttpServlet {
             throws ServletException, IOException {
         String user=request.getParameter("user");
         String psw=request.getParameter("psw");
-
+        HttpSession ses=request.getSession(true);
         Dto d=new Dto();
         String rpta=d.loginTeacher(user, psw);
         System.out.println(rpta);
@@ -43,30 +43,14 @@ public class LoginTeacher extends HttpServlet {
         JSONParser p=new JSONParser();
         try{            
             o=(JSONObject)p.parse(rpta);
+            ses.setAttribute("data", o);
         }catch(Exception e){
             System.out.println(e);
-        }
-        System.out.println("json: "+o);
-        String nombre=o.get("nombre").toString();
-        String id=o.get("id").toString();
-        String seccion=o.get("seccion").toString();
-        
-        Cookie cookie1 = new Cookie("nombre", nombre);
-        cookie1.setMaxAge(24 * 60 * 60);
-        Cookie cookie2 = new Cookie("seccion", seccion);
-        cookie2.setMaxAge(24 * 60 * 60);
-        Cookie cookie3 = new Cookie("id", id);
-        cookie3.setMaxAge(24 * 60 * 60);
-        System.out.println(cookie1.getName()+"-"+cookie2.getName()+"-"+cookie3.getName());
-        System.out.println(cookie1.getValue()+"-"+cookie2.getValue()+"-"+cookie3.getValue());
-        response.addCookie(cookie1);
-        response.addCookie(cookie2);
-        response.addCookie(cookie3);
-        
+        }               
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.print(nombre);     
+            out.print((String)o.get("nombre"));     
         }
     }
 

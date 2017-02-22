@@ -30,7 +30,7 @@ public class RechazarTesis extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int idTesis=Integer.parseInt(request.getParameter("idT"));
+        String idTesis=request.getParameter("idT");
         Dto d=new Dto();
         response.setContentType("text/html;charset=UTF-8");
         d.rechazarTesisProfesor(idTesis);

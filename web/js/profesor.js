@@ -27,7 +27,7 @@ function search() {
 
 function listarTesisA() {
     var xhttp = new XMLHttpRequest();
-
+    
     xhttp.open("POST", "ListarTesisAsesor", true);
     xhttp.send();
     xhttp.onreadystatechange = function () {

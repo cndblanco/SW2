@@ -13,6 +13,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -31,24 +34,24 @@ public class AceptarSolicitud extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int idTesis=Integer.parseInt(request.getParameter("idT"));
-        String asesor="";
-        Cookie[] cookies = request.getCookies();
-        boolean foundCookie;
-        for (int i = 0; i < cookies.length; i++) {
-            Cookie cookie1 = cookies[i];
-            if (cookie1.getName().equals("id")) {
-                asesor = cookie1.getValue();
-                System.out.println("asesor: "+asesor);
-                foundCookie = true;
-            }
+        String idTesis = request.getParameter("idT");
+        String asesor = "";
+        HttpSession ses = request.getSession(true);
+
+        JSONObject o = (JSONObject)ses.getAttribute("data");
+        JSONParser p = new JSONParser();
+        try {
+            asesor=(String)o.get("id");
+            System.out.println("aceptar asesor:"+asesor);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        Dto d=new Dto();
+        Dto d = new Dto();
         response.setContentType("text/html;charset=UTF-8");
-        d.aceptarSolicitudAsesor(idTesis,Integer.parseInt(asesor));
+        d.aceptarSolicitudAsesor(idTesis, asesor);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.print("ok");       
+            out.print("ok");
         }
     }
 

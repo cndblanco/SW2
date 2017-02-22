@@ -78,8 +78,11 @@ function loginTeacher() {
     xhttp.onreadystatechange = function () {
         if (this.responseText !== "error") {
             //document.getElementById("rpta").innerHTML = "<p style='color: green'>Login correcto</p>";
+            sessionStorage.setItem('data', JSON.stringify(this.responseText));
+            console.log(sessionStorage.getItem("data"));
             window.location.href = 'profesor.html';
         } else if (this.responseText === "error") {
+            
             alert("Usuario no registrado o datos incorrectos");
             window.location.href = 'index.html';            
             return false;
