@@ -31,6 +31,7 @@ function listarTesisA() {
     xhttp.open("POST", "ListarTesisAsesor", true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
+        //listarActasPendientes();
         if (this.readyState === 4 && this.status === 200) {
             $("#listaTesisA").html("");
             $("#listaTesisA").html(this.response);
@@ -44,6 +45,7 @@ function listarTesisP() {
     xhttp.open("POST", "ListarTesisProfesor", true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
+        //listarTesisA()
         if (this.readyState === 4 && this.status === 200) {
             $("#listaTesisP").html("");
             $("#listaTesisP").html(this.response);
@@ -107,6 +109,43 @@ function logOut() {
     xhttp.send();
     xhttp.onreadystatechange = function () {
         window.location.href = 'index.html';
+    };
+}
+
+function listarActasPendientes() {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "ListarActasPendientes", true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            $("#listaActas").html("");
+            $("#listaActas").html(this.response);
+        }
+    };
+}
+
+function aceptarActa(id) {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "AceptarTesis?idA=" + id, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            listarTesisP();
+        }
+    };
+}
+
+function rechazarActa(id) {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "RechazarTesis?idA=" + id, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            listarTesisP();
+        }
     };
 }
 

@@ -39,6 +39,74 @@ public class Dto {
         }
     }
 
+    public String getLastActaId() {
+        Conexion c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("actas");
+
+        Document doc = col.find().sort(Sorts.orderBy(Sorts.descending("_id"))).first();
+
+        if (doc == null) {
+            return "0";
+        } else {
+            return (doc.getString("_id"));
+        }
+    }
+
+    public void registrarActa(String profe, String tema, String temas, String reco, String alumno) {
+        c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("actas");
+        //int idUsuario = 0;
+        Document doc = new Document();
+        doc.append("_id", String.valueOf((Integer.parseInt(getLastActaId()) + 1)));
+        doc.append("tema", tema);
+        doc.append("asesor", profe);
+        doc.append("idAlumno", alumno);
+        doc.append("temas", temas);
+        doc.append("reco", reco);
+        doc.append("estado", "pendiente");
+        col.insertOne(doc);
+    }
+
+    public String getNombreAsesor(String idA) {
+        String nombre = "";
+        MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
+
+        Document doc = col.find(and(eq("_id", idA), eq("estadoA", "aceptado"))).first();
+        String idP = doc.getString("idAsesor");
+        MongoCollection<Document> col2 = c.getConnection("profesores");
+        Document doc2 = col2.find(eq("_id", idP)).first();
+        nombre = doc2.getString("nombre");
+
+        return nombre;
+    }
+
+    public String getLastAsesoriaId() {
+        Conexion c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("asesorias");
+
+        Document doc = col.find().sort(Sorts.orderBy(Sorts.descending("_id"))).first();
+
+        if (doc == null) {
+            return "0";
+        } else {
+            return (doc.getString("_id"));
+        }
+    }
+
+    public void registrarAsesoria(String profe, String tema, String asunto, String alumno) {
+        c = new Conexion();
+        MongoCollection<Document> col = c.getConnection("asesorias");
+        //int idUsuario = 0;
+        Document doc = new Document();
+        doc.append("_id", String.valueOf((Integer.parseInt(getLastAsesoriaId()) + 1)));
+        doc.append("tema", tema);
+        doc.append("idAsesor", profe);
+        doc.append("idAlumno", alumno);
+        doc.append("asunto", asunto);
+        doc.append("estado", "pendiente");
+        col.insertOne(doc);
+    }
+
     public String getLastTeacherId() {
         Conexion c = new Conexion();
         MongoCollection<Document> col = c.getConnection("profesores");
@@ -65,15 +133,14 @@ public class Dto {
             return (doc.getString("_id"));
 
         }
-    }    
-    
+    }
 
     public void registrarTema(String tema, String usuario) {
         c = new Conexion();
         MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
         //int idUsuario = 0;
         Document doc = new Document();
-        doc.append("_id", String.valueOf((Integer.parseInt(getLastTesisId())+1)));
+        doc.append("_id", String.valueOf((Integer.parseInt(getLastTesisId()) + 1)));
         doc.append("titulo", tema);
         doc.append("idAsesor", "0");
         doc.append("estadoP", "pendiente");
@@ -183,6 +250,35 @@ public class Dto {
             }
         } catch (Exception e) {
             System.out.println("listarTesis universo: " + e);
+        } finally {
+            cursor.close();
+        }
+        return cadena;
+    }
+
+    public String listarActas() {
+        String cadena = "";
+        MongoCollection<Document> col = c.getConnection("actas");
+        MongoCursor<Document> cursor = col.find(eq("estado","pendiente")).iterator();
+        Document doc;
+        try {
+            while (cursor.hasNext()) {
+                doc = cursor.next();
+                cadena += "<tr>"
+                        + "<td width='20%'>" + doc.getString("tema").toUpperCase().trim() + "</td>"
+                        + "<td width='20%'>" + doc.getString("temas") + "</td>"
+                        + "<td width='20%'>" + doc.getString("reco").toUpperCase().trim() + "</td>"
+                        + "<td width='20%'>" + getNombreAlumno(doc.getString("idAlumno")) + "</td>";
+                if (doc.getString("estado").equalsIgnoreCase("pendiente")) {
+                    cadena += "<td width='20%'><button onclick='aceptarActa(" + doc.getString("_id") + ")'>OK</button>"
+                            + "<button onclick='rechazarActa(" + doc.getString("_id") + ")'>X</button></td><tr>";
+                } else {
+                    cadena += "<td width='20%'></td><tr>";
+                }
+            }
+        } catch (Exception e) {
+            cadena="No tiene actas pendientes";
+            System.out.println("listarActas: " + e);
         } finally {
             cursor.close();
         }
@@ -303,7 +399,7 @@ public class Dto {
 
     public String listarTesisSinAsesor(String seccion) {
         MongoCollection<Document> col = c.getConnection("tesis_alumno_asesor");
-        MongoCursor<Document> cursor = col.find(and(eq("seccion", (seccion)), eq("idAsesor", 0))).iterator();
+        MongoCursor<Document> cursor = col.find(and(eq("seccion", (seccion)), eq("idAsesor", "0"))).iterator();
         Document doc;
         String cadena = "";
         try {
@@ -377,5 +473,19 @@ public class Dto {
         MongoCollection<Document> col1 = c.getConnection("tesis_alumno_asesor");
         Document doc2 = col1.find(eq("_id", idTesis)).first();
         col.updateOne(doc2, new Document("$set", new Document("idAsesor", 0)));
+    }
+    
+    public void aceptarActa(String idActa) {
+        MongoCollection<Document> col = c.getConnection("actas");
+        Document doc = col.find(eq("_id", idActa)).first();
+
+        col.updateOne(doc, new Document("$set", new Document("estado", "aceptado")));
+    }
+
+    public void rechazarActa(String idActa) {
+        MongoCollection<Document> col = c.getConnection("actas");
+        Document doc = col.find(eq("_id", idActa)).first();
+
+        col.updateOne(doc, new Document("$set", new Document("estado", "rechazado")));
     }
 }

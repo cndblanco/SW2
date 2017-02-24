@@ -9,19 +9,17 @@ import dto.Dto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
  * @author Lenovo
  */
-public class ListarTesisSinAsesor extends HttpServlet {
+public class MostrarAsesor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,24 +32,17 @@ public class ListarTesisSinAsesor extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession ses=request.getSession();
+        JSONObject o=(JSONObject)ses.getAttribute("data");
+        System.out.println(o);
+        String idAlumno=(String)o.get("id");
+        System.out.println(idAlumno);
         Dto d=new Dto();
-        String seccion="";
         
-        HttpSession ses = request.getSession(true);
-        
-        JSONObject o = (JSONObject)ses.getAttribute("data");
-        System.out.println("data del login: "+o);
-        JSONParser p = new JSONParser();
-        try {
-            seccion=(String)o.get("seccion");
-            System.out.println("sin asesor seccion:"+seccion);
-        } catch (Exception e) {
-            System.out.println("tesis sin asesor: "+e);
-        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.print(d.listarTesisSinAsesor("901"));
+            out.print("<input type='text' id='nom_asesor' value='"+d.getNombreAsesor(idAlumno)+"' hidden=''><b style='font-size:24px'>"+d.getNombreAsesor(idAlumno)+"</b> <a onclick='showActa()'class=\"btn-floating btn-large waves-effect waves-light red\"><i class=\"material-icons\">add</i></a>");
             
         }
     }

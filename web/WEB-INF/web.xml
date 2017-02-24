@@ -68,6 +68,30 @@
         <servlet-name>RegistrarAsesor</servlet-name>
         <servlet-class>servlets.RegistrarAsesor</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GuardarAsesoria</servlet-name>
+        <servlet-class>servlets.GuardarAsesoria</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MostrarAsesor</servlet-name>
+        <servlet-class>servlets.MostrarAsesor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GuardarActa</servlet-name>
+        <servlet-class>servlets.GuardarActa</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListarActasPendientes</servlet-name>
+        <servlet-class>servlets.ListarActasPendientes</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AceptarActa</servlet-name>
+        <servlet-class>servlets.AceptarActa</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RechazarActa</servlet-name>
+        <servlet-class>servlets.RechazarActa</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -135,6 +159,30 @@
     <servlet-mapping>
         <servlet-name>RegistrarAsesor</servlet-name>
         <url-pattern>/RegistrarAsesor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GuardarAsesoria</servlet-name>
+        <url-pattern>/GuardarAsesoria</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MostrarAsesor</servlet-name>
+        <url-pattern>/MostrarAsesor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GuardarActa</servlet-name>
+        <url-pattern>/GuardarActa</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListarActasPendientes</servlet-name>
+        <url-pattern>/ListarActasPendientes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AceptarActa</servlet-name>
+        <url-pattern>/AceptarActa</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RechazarActa</servlet-name>
+        <url-pattern>/RechazarActa</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
